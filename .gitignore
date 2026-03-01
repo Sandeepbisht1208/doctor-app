@@ -1,0 +1,20 @@
+# Environment variables - NEVER commit these
+.env
+
+# SQLite development database
+*.sqlite3
+
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Build output
+dist/
+build/
+
+# OS files
+.DS_Store
+Thumbs.db
