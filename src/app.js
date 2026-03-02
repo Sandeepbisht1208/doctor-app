@@ -5,6 +5,7 @@ const morgan = require('morgan');
 require('dotenv').config();
 
 const app = express();
+app.set('trust proxy', 1); // Trust first proxy (Railway load balancer)
 
 const { apiLimiter, authLimiter } = require('./api/middlewares/rateLimiter');
 
