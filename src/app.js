@@ -55,8 +55,25 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`Doctor Service Backend running on port ${PORT}`);
-});
+
+// Auto-run migrations before starting server (needed for Railway)
+const db = require('./config/db');
+
+async function startServer() {
+    try {
+        console.log('Running database migrations...');
+        await db.migrate.latest({ env: process.env.NODE_ENV || 'development' });
+        console.log('Database migrations completed successfully.');
+
+        app.listen(PORT, () => {
+            console.log(`Doctor Service Backend running on port ${PORT}`);
+        });
+    } catch (err) {
+        console.error('Failed to run database migrations on startup:', err);
+        process.exit(1);
+    }
+}
+
+startServer();
 
 module.exports = app;
