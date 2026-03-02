@@ -20,9 +20,8 @@ exports.sendOTP = async (req, res) => {
     }
 
     // In production: integrate an SMS gateway here (Twilio, MSG91, etc.)
-    if (process.env.NODE_ENV !== 'production') {
-        console.log(`[DEV AUTH] OTP for ${phone}: ${otp}`);
-    }
+    // Temporarily logging OTP in production until SMS is configured so the user can log in
+    console.log(`[AUTH] OTP for ${phone}: ${otp}`);
 
     res.status(200).json({
         success: true,
