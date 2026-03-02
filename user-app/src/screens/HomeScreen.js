@@ -22,6 +22,7 @@ export default function HomeScreen({ navigation }) {
     const services = [
         {
             id: 'doctor',
+            label: 'Doctor Appointment',
             title: 'Doctor\nAppointment',
             icon: Stethoscope,
             color: '#4CD964',
@@ -29,6 +30,7 @@ export default function HomeScreen({ navigation }) {
         },
         {
             id: 'ambulance',
+            label: 'Emergency Ambulance',
             title: 'Emergency\nAmbulance',
             icon: Ambulance,
             color: '#FF3B30',
@@ -36,6 +38,7 @@ export default function HomeScreen({ navigation }) {
         },
         {
             id: 'rehab',
+            label: 'Rehab Home Visit',
             title: 'Rehab\nHome Visit',
             icon: Home,
             color: '#5856D6',
@@ -43,6 +46,7 @@ export default function HomeScreen({ navigation }) {
         },
         {
             id: 'physio',
+            label: 'Physio Home Visit',
             title: 'Physio\nHome Visit',
             icon: Activity,
             color: '#FF9500',
@@ -71,7 +75,7 @@ export default function HomeScreen({ navigation }) {
                         <TouchableOpacity
                             key={service.id}
                             style={styles.card}
-                            onPress={() => navigation.navigate(service.screen, { type: service.id })}
+                            onPress={() => navigation.navigate(service.screen, { type: service.id, label: service.label })}
                         >
                             <View style={[styles.iconCircle, { backgroundColor: service.color + '20' }]}>
                                 <service.icon size={32} color={service.color} />

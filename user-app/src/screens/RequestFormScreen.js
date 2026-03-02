@@ -11,7 +11,7 @@ import {
     ActivityIndicator
 } from 'react-native';
 import { theme } from '../theme';
-import { ArrowLeft, CheckCircle2 } from 'lucide-react-native';
+import { ArrowLeft, CheckCircle } from 'lucide-react-native';
 import { userService } from '../services/api';
 
 export default function RequestFormScreen({ route, navigation }) {
@@ -104,7 +104,7 @@ export default function RequestFormScreen({ route, navigation }) {
                         ) : (
                             <>
                                 <Text style={styles.submitBtnText}>Submit Request</Text>
-                                <CheckCircle2 size={20} color="#FFF" />
+                                <CheckCircle size={20} color="#FFF" />
                             </>
                         )}
                     </TouchableOpacity>

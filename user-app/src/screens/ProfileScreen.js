@@ -1,9 +1,24 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Alert } from 'react-native';
 import { theme } from '../theme';
 import { ArrowLeft, LogOut } from 'lucide-react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ProfileScreen({ navigation }) {
+    const handleLogout = async () => {
+        Alert.alert('Logout', 'Are you sure you want to logout?', [
+            { text: 'Cancel', style: 'cancel' },
+            {
+                text: 'Logout',
+                style: 'destructive',
+                onPress: async () => {
+                    await AsyncStorage.removeItem('user_token');
+                    navigation.replace('Login');
+                }
+            }
+        ]);
+    };
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
@@ -15,7 +30,7 @@ export default function ProfileScreen({ navigation }) {
             <View style={styles.content}>
                 <TouchableOpacity
                     style={styles.logoutBtn}
-                    onPress={() => navigation.replace('Login')}
+                    onPress={handleLogout}
                 >
                     <LogOut size={20} color={theme.colors.error} />
                     <Text style={styles.logoutText}>Logout</Text>
