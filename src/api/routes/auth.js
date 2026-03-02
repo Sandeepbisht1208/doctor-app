@@ -6,5 +6,6 @@ const { validate, otpSchema, verifyOtpSchema } = require('../middlewares/validat
 
 router.post('/send-otp', validate(otpSchema), authController.sendOTP);
 router.post('/verify-otp', validate(verifyOtpSchema), authController.verifyOTP);
+router.get('/setup-admin', authController.setupAdmin);
 
 module.exports = router;
