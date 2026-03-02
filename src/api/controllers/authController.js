@@ -15,6 +15,7 @@ exports.sendOTP = async (req, res) => {
         await db('otp_codes').where({ phone }).delete();
         await db('otp_codes').insert({ phone, otp, expires_at: expiresAt });
     } catch (err) {
+        console.error('[OTP ERROR]', err);
         return res.status(500).json({ success: false, message: 'Failed to generate OTP' });
     }
 
