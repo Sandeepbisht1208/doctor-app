@@ -1,1 +1,1 @@
-web: node src/app.js
+web: npx knex migrate:latest --env production && node src/app.js
