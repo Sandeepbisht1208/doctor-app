@@ -3,13 +3,23 @@ const crypto = require('crypto');
 
 exports.createRequest = async (req, res) => {
     const { service_type, details, location } = req.body;
-    const user_id = req.user.id;
+    let user_id = req.user.id;
 
     if (!['doctor', 'ambulance', 'rehab', 'physio'].includes(service_type)) {
         return res.status(400).json({ success: false, message: 'Invalid service type' });
     }
 
     try {
+        if (user_id === 'bypass-user') {
+            const dummy = await db('users').where({ phone: '0000000000' }).first();
+            if (dummy) {
+                user_id = dummy.id;
+            } else {
+                user_id = crypto.randomUUID();
+                await db('users').insert({ id: user_id, phone: '0000000000', role: 'user' });
+            }
+        }
+
         // SQLite doesn't support POINT or returning multiple columns in old versions
         // We'll store location as JSON string for now or lat/lng
         const requestId = crypto.randomUUID();
