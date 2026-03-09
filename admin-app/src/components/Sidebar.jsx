@@ -14,7 +14,7 @@ const Sidebar = ({ onLogout, user }) => {
     return (
         <aside className="sidebar">
             <div className="sidebar-logo">
-                <img src="/linel.png" alt="DoctorApp Logo" style={{ height: '40px', objectFit: 'contain' }} />
+                <img src="/linel.png" alt="DoctorApp Logo" style={{ height: '80px', width: '100%', objectFit: 'contain' }} />
             </div>
 
             <nav className="nav-links">
