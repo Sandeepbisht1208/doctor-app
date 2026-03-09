@@ -10,12 +10,13 @@ import './styles/Dashboard.css';
 
 function App() {
   const [user, setUser] = useState(() => {
-    try {
-      const stored = localStorage.getItem('admin_user');
-      return stored ? JSON.parse(stored) : null;
-    } catch {
-      return null;
-    }
+    return { id: 'bypass-admin', name: 'Admin (Bypassed)', role: 'admin' };
+    // try {
+    //   const stored = localStorage.getItem('admin_user');
+    //   return stored ? JSON.parse(stored) : null;
+    // } catch {
+    //   return null;
+    // }
   });
 
   const handleLogin = (userData) => {

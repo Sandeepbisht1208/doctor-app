@@ -23,20 +23,22 @@ export default function LoginScreen({ navigation }) {
     const [loading, setLoading] = useState(false);
 
     const handleSendOTP = async () => {
-        if (phone.length < 10) {
-            Alert.alert('Invalid Phone', 'Please enter a valid 10-digit phone number');
-            return;
-        }
-        setLoading(true);
-        try {
-            await userService.sendOTP(phone);
-            setIsOtpSent(true);
-            Alert.alert('OTP Sent', 'Use 123456 for testing');
-        } catch (error) {
-            Alert.alert('Error', 'Failed to send OTP. Please try again.');
-        } finally {
-            setLoading(false);
-        }
+        // BYPASS LOGIN FOR TESTING
+        navigation.replace('Home');
+        // if (phone.length < 10) {
+        //     Alert.alert('Invalid Phone', 'Please enter a valid 10-digit phone number');
+        //     return;
+        // }
+        // setLoading(true);
+        // try {
+        //     await userService.sendOTP(phone);
+        //     setIsOtpSent(true);
+        //     Alert.alert('OTP Sent', 'Use 123456 for testing');
+        // } catch (error) {
+        //     Alert.alert('Error', 'Failed to send OTP. Please try again.');
+        // } finally {
+        //     setLoading(false);
+        // }
     };
 
     const handleVerifyOTP = async () => {
