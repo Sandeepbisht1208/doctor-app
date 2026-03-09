@@ -8,7 +8,8 @@ import {
     TextInput,
     ScrollView,
     Alert,
-    ActivityIndicator
+    ActivityIndicator,
+    Modal
 } from 'react-native';
 import { theme } from '../theme';
 import { ArrowLeft, MapPin, Phone, AlertCircle } from 'lucide-react-native';
@@ -24,6 +25,11 @@ export default function AmbulanceRequestScreen({ navigation }) {
         contact_number: ''
     });
 
+    // OTP Modal State
+    const [showOTP, setShowOTP] = useState(false);
+    const [otp, setOtp] = useState('');
+    const [otpError, setOtpError] = useState('');
+
     useEffect(() => {
         (async () => {
             let { status } = await Location.requestForegroundPermissionsAsync();
@@ -37,13 +43,24 @@ export default function AmbulanceRequestScreen({ navigation }) {
         })();
     }, []);
 
-    const handleSubmit = async () => {
+    const handleSubmit = () => {
         if (!formData.emergency_type || !formData.contact_number) {
             Alert.alert('Error', 'Please fill in mandatory fields');
             return;
         }
+        setShowOTP(true);
+    };
 
+    const handleVerifyOTP = async () => {
+        if (otp.length !== 4) {
+            setOtpError('Please enter a valid 4-digit OTP');
+            return;
+        }
+
+        setOtpError('');
+        setShowOTP(false);
         setLoading(true);
+
         try {
             await userService.createRequest({
                 service_type: 'ambulance',
@@ -60,6 +77,7 @@ export default function AmbulanceRequestScreen({ navigation }) {
             Alert.alert('Dispatch Error', 'Failed to send request. Please call emergency services directly.');
         } finally {
             setLoading(false);
+            setOtp('');
         }
     };
 
@@ -130,6 +148,44 @@ export default function AmbulanceRequestScreen({ navigation }) {
                     </TouchableOpacity>
                 </View>
             </ScrollView>
+
+            <Modal visible={showOTP} transparent animationType="slide">
+                <View style={styles.modalOverlay}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalTitle}>Verification Required</Text>
+                        <Text style={styles.modalSubtitle}>Please enter the 4-digit OTP sent to your number</Text>
+
+                        <TextInput
+                            style={styles.otpInput}
+                            placeholder="0000"
+                            keyboardType="number-pad"
+                            maxLength={4}
+                            value={otp}
+                            onChangeText={(val) => {
+                                setOtp(val);
+                                setOtpError('');
+                            }}
+                            autoFocus
+                        />
+                        {otpError ? <Text style={styles.errorText}>{otpError}</Text> : null}
+
+                        <View style={styles.modalActions}>
+                            <TouchableOpacity
+                                style={[styles.modalBtn, styles.modalCancelBtn]}
+                                onPress={() => { setShowOTP(false); setOtp(''); }}
+                            >
+                                <Text style={styles.modalCancelText}>Cancel</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={[styles.modalBtn, styles.modalVerifyBtn]}
+                                onPress={handleVerifyOTP}
+                            >
+                                <Text style={styles.modalVerifyText}>Verify & Dispatch</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
         </SafeAreaView>
     );
 }
@@ -187,5 +243,17 @@ const styles = StyleSheet.create({
         marginTop: theme.spacing.xl,
         marginBottom: theme.spacing.xxl,
     },
-    dispatchText: { color: theme.colors.white, fontWeight: '900', fontSize: 18, marginLeft: theme.spacing.sm }
+    dispatchText: { color: theme.colors.white, fontWeight: '900', fontSize: 18, marginLeft: theme.spacing.sm },
+    modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center', padding: 20 },
+    modalContent: { backgroundColor: '#FFF', borderRadius: 16, padding: 24, width: '100%', alignItems: 'center' },
+    modalTitle: { fontSize: 20, fontWeight: '700', marginBottom: 8, color: '#111827' },
+    modalSubtitle: { fontSize: 14, color: '#6B7280', textAlign: 'center', marginBottom: 24 },
+    otpInput: { backgroundColor: '#F3F4F6', fontSize: 32, letterSpacing: 8, textAlign: 'center', padding: 16, borderRadius: 12, width: '80%', marginBottom: 16 },
+    errorText: { color: '#EF4444', marginBottom: 16, fontSize: 14 },
+    modalActions: { flexDirection: 'row', gap: 12, width: '100%' },
+    modalBtn: { flex: 1, height: 48, borderRadius: 8, justifyContent: 'center', alignItems: 'center' },
+    modalCancelBtn: { backgroundColor: '#F3F4F6' },
+    modalVerifyBtn: { backgroundColor: '#10B981' },
+    modalCancelText: { color: '#4B5563', fontWeight: '600' },
+    modalVerifyText: { color: '#FFF', fontWeight: '700' }
 });

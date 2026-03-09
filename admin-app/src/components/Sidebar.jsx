@@ -5,16 +5,16 @@ import {
     ClipboardList,
     Map as MapIcon,
     Users,
-    LogOut,
-    HeartPulse
+    LogOut
 } from 'lucide-react';
+// Assume the user copied linel.png into admin-app/src/assets or we can use an absolute path for now.
+// I will just use an img tag with the absolute path directly for testing, or assume it's in public.
 
 const Sidebar = ({ onLogout, user }) => {
     return (
         <aside className="sidebar">
             <div className="sidebar-logo">
-                <HeartPulse size={32} />
-                <span>DoctorApp</span>
+                <img src="/linel.png" alt="DoctorApp Logo" style={{ height: '40px', objectFit: 'contain' }} />
             </div>
 
             <nav className="nav-links">

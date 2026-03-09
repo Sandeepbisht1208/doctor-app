@@ -5,7 +5,8 @@ import {
     View,
     TouchableOpacity,
     ScrollView,
-    SafeAreaView
+    SafeAreaView,
+    Image
 } from 'react-native';
 import { theme } from '../theme';
 import {
@@ -58,9 +59,12 @@ export default function HomeScreen({ navigation }) {
         <SafeAreaView style={styles.container}>
             <ScrollView contentContainerStyle={styles.scroll}>
                 <View style={styles.header}>
-                    <View>
-                        <Text style={styles.greeting}>Hello, User</Text>
-                        <Text style={styles.subtitle}>How can we help today?</Text>
+                    <View style={styles.logoContainer}>
+                        <Image
+                            source={require('../../assets/linel.png')}
+                            style={styles.logoImage}
+                            resizeMode="contain"
+                        />
                     </View>
                     <TouchableOpacity
                         style={styles.profileBtn}
@@ -122,13 +126,13 @@ const styles = StyleSheet.create({
         marginBottom: theme.spacing.xl,
         marginTop: theme.spacing.md,
     },
-    greeting: {
-        ...theme.typography.h1,
-        color: theme.colors.text,
+    logoContainer: {
+        flex: 1,
+        justifyContent: 'center',
     },
-    subtitle: {
-        ...theme.typography.body,
-        color: theme.colors.textSecondary,
+    logoImage: {
+        width: 140,
+        height: 60,
     },
     profileBtn: {
         width: 50,
