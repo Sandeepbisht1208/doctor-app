@@ -6,7 +6,7 @@ exports.getAllRequests = async (req, res) => {
     try {
         const { type, status } = req.query;
         let query = db('service_requests')
-            .join('users', 'service_requests.user_id', 'users.id')
+            .leftJoin('users', 'service_requests.user_id', 'users.id')
             .leftJoin('staff', 'service_requests.assigned_staff_id', 'staff.id')
             .select(
                 'service_requests.*',
@@ -42,7 +42,7 @@ exports.assignStaff = async (req, res) => {
 
             // Notification to User
             const request = await db('service_requests')
-                .join('users', 'service_requests.user_id', 'users.id')
+                .leftJoin('users', 'service_requests.user_id', 'users.id')
                 .select(
                     'users.push_token',
                     'users.name as patient_name',
@@ -94,7 +94,7 @@ exports.updateStatus = async (req, res) => {
 
         // Notification to User on status change
         const request = await db('service_requests')
-            .join('users', 'service_requests.user_id', 'users.id')
+            .leftJoin('users', 'service_requests.user_id', 'users.id')
             .select('users.push_token', 'service_requests.service_type')
             .where('service_requests.id', requestId)
             .first();
@@ -191,7 +191,7 @@ exports.getDetailedAnalytics = async (req, res) => {
 exports.exportRequests = async (req, res) => {
     try {
         const requests = await db('service_requests')
-            .join('users', 'service_requests.user_id', 'users.id')
+            .leftJoin('users', 'service_requests.user_id', 'users.id')
             .select(
                 'service_requests.id',
                 'users.name as patient_name',
