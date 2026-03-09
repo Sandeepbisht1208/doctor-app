@@ -19,7 +19,14 @@ exports.getAllRequests = async (req, res) => {
         if (status) query = query.where({ status });
 
         const requests = await query.orderBy('created_at', 'desc');
-        res.status(200).json({ success: true, data: requests });
+
+        const formattedRequests = requests.map(req => ({
+            ...req,
+            patient_name: req.patient_name || 'Dummy Request (Bypass)',
+            patient_phone: req.patient_phone || 'No Phone'
+        }));
+
+        res.status(200).json({ success: true, data: formattedRequests });
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
@@ -201,9 +208,15 @@ exports.exportRequests = async (req, res) => {
                 'service_requests.created_at'
             );
 
+        const formattedRequests = requests.map(req => ({
+            ...req,
+            patient_name: req.patient_name || 'Dummy Request (Bypass)',
+            patient_phone: req.patient_phone || 'No Phone'
+        }));
+
         const fields = ['id', 'patient_name', 'patient_phone', 'service_type', 'status', 'created_at'];
         const json2csvParser = new Parser({ fields });
-        const csv = json2csvParser.parse(requests);
+        const csv = json2csvParser.parse(formattedRequests);
 
         res.header('Content-Type', 'text/csv');
         res.attachment(`requests-export-${new Date().toISOString().split('T')[0]}.csv`);
