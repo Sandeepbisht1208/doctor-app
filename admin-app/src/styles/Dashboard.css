@@ -63,7 +63,8 @@ body {
   transition: all 0.2s;
 }
 
-.nav-item:hover, .nav-item.active {
+.nav-item:hover,
+.nav-item.active {
   background: var(--glass);
   color: var(--text-main);
 }
@@ -84,6 +85,13 @@ body {
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 1.5rem;
   margin-bottom: 2.5rem;
+}
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .stats-card {
@@ -142,6 +150,17 @@ td {
   text-transform: uppercase;
 }
 
-.status-pending { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
-.status-completed { background: rgba(16, 185, 129, 0.1); color: var(--success); }
-.status-emergency { background: rgba(239, 68, 68, 0.1); color: var(--error); }
+.status-pending {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--warning);
+}
+
+.status-completed {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--success);
+}
+
+.status-emergency {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--error);
+}

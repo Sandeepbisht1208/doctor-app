@@ -59,8 +59,8 @@ const Dashboard = () => {
                 ))}
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
-                <div className="stats-card" style={{ height: '350px' }}>
+            <div className="charts-grid">
+                <div className="stats-card" style={{ minHeight: '350px', height: '400px' }}>
                     <h3>Request Trends (Last 6 Months)</h3>
                     <ResponsiveContainer width="100%" height="90%">
                         <AreaChart data={detailed?.monthlyTrends || []}>
@@ -82,7 +82,7 @@ const Dashboard = () => {
                     </ResponsiveContainer>
                 </div>
 
-                <div className="stats-card" style={{ height: '350px' }}>
+                <div className="stats-card" style={{ minHeight: '350px', height: '400px' }}>
                     <h3>Service Distribution</h3>
                     <ResponsiveContainer width="100%" height="90%">
                         <PieChart>

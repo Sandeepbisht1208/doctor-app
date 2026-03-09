@@ -51,8 +51,7 @@ export default function Login({ onLogin }) {
             <div style={styles.card}>
                 {/* Logo */}
                 <div style={styles.logo}>
-                    <span style={styles.logoIcon}>🏥</span>
-                    <span>Doctor App</span>
+                    <img src="/linel.png" alt="Logo" style={{ height: '60px', objectFit: 'contain' }} />
                 </div>
                 <h2 style={styles.title}>Admin Portal</h2>
                 <p style={styles.subtitle}>
